@@ -47,19 +47,28 @@ function setTimer() {
   }
 
 function displayWord(letter) {
+  var guessListEl = document.getElementById("guess-list");
 
-//(for var i = 0; i < wordBankArr[wordIndex].length; i++ )
-//if letter = null {
+ for (var i = 0; i < wordBankArr[wordIndex].length; i++ ) {
+ if (letter == null) {
     //create element li
+    var tempEL = document.createElement("li");
+    tempEL.textContent = "_";
+    guessListEl.appendChild(tempEL);
+   
+    
     //text content = _
     //append to dom
-// else if (letter  === wordBankArr[wordIndex][i])
+ }
+ else if (letter  === wordBankArr[wordIndex][i]) {
     //dom element child[i] . textContent = letter
     
     //else {
         //console.log("error in if")
         //}
     }
+  }
+}
 
 function checkGuess(event) {
   //iterate through wordArr[wordIndex]
