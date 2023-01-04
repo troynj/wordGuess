@@ -1,27 +1,17 @@
-var score = {
-  win: null,
-  loss: null,
-};
-
 //var user = null;
 
+
+var win = 0
+var loss = 0
+
+
 var timeLeft = 10;
+var timerEl = document.getElementById("timer");
+var gameOver = false
+var wordGuessed = false
 
-// var wordsStatusArr = [
-//   { o: false, n: false, e: false },
-//   { t: false, w: false, o: true },
-//   {
-//     t: false,
-//     h: false,
-//     r: false,
-//     e: false,
-//     e: false,
-//   },
-//   { f: false, o: false, u: false, r: false },
-// ];
-wordBankArr = ["one", "two", "three", "four"];
-var wordIndex = 2;
-
+wordBankArr = ["one", "two", "three", "four", "bear", "blue", "house", "slime", "hidden", "temple"];
+var wordIndex = getWord(); 
 var startGameEl = document.getElementById("start-game");
 
 startGameEl.addEventListener("click", initGame);
@@ -29,21 +19,34 @@ startGameEl.addEventListener("click", initGame);
 window.addEventListener("keydown", checkGuess);
 
 function initGame() {
-  //use session id to identify username - user = promt: whats your name
-  //Math.random(Math.floor() * 4)
+  
   displayWord(null);
   setTimer();
+  
 }
 
 function setTimer() {
   var timerID = setInterval(function () {
     timeLeft--;
+    timerEl.textContent = "Time Left: " + timeLeft;
+
+    if (!timeLeft || gameOver || wordGuessed) {
+      clearInterval(timerID);
+      gameOver = true;
+      endGame();
+    }
 
     //if statement to manage gamestate
     //clearInterval(timerID)
     //manage end game
   }, 1000);
 }
+
+function getWord() {
+	return [Math.floor(Math.random() * wordBankArr.length)];
+
+}
+
 
 function displayWord(letter) {
   var guessListEl = document.getElementById("guess-list");
@@ -64,13 +67,13 @@ function displayWord(letter) {
         //traverse dom and select nth child
         //change text content
         //dom element child[i] . textContent = letter
-        guessListEl.children[i].textContent = letter
+        guessListEl.children[i].textContent = letter.toUpperCase()
 
-      //since we cant figure it out, assign ids and cheat
+     
     }
     //console.log(guessListEl.child.textContent)
     else {
-    console.log("error in if statement")
+    console.log("no conditions were met")
     }
   }
 }
@@ -79,24 +82,52 @@ function checkGuess(event) {
   console.log(event.key);
   if (wordBankArr[wordIndex].includes(event.key)) {
     displayWord(event.key);
-  }
-  //
+  } 
+  wordGuessed = checkWordStatus();
+  console.log(wordGuessed)
+  
 }
 
-//function endGame () {
-//if word guessed
-//score.win++
-//else
-//score.loss++
-//timeLeft = 0
+function checkWordStatus() {
+  for (var i = 0; i < wordBankArr[wordIndex].length; i++) {
+    var guessListEl = document.getElementById("guess-list");
+    if (guessListEl.children[i].textContent === "_") {
+      return false;
+    }
+    return true;
 
-//saveScore
-//}
+    
+
+  }
+}
+
+function endGame() {
+    if (wordGuessed) {
+      win++;
+    }
+    else {
+      loss++;
+    }
+
+
+saveScore();
+setScore();
+ }
 
 function saveScore() {
-  localStorage.setItem("user", JSON.stringify(score));
+  localStorage.setItem("win", win);
+  localStorage.setItem("loss", loss);
 }
+
+function setScore() {
+  var winEl = document.getElementById("win")
+  var lossEl = document.getElementById("loss")
+  winEl.textContent = "Wins: " + localStorage.getItem("win")
+  lossEl.textContent = "Losses: " + localStorage.getItem("loss")
+}
+
 
 //render local storage
 //win game
 //lose game
+
