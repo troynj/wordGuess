@@ -54,25 +54,24 @@ function displayWord(letter) {
       var tempEl = document.createElement("li");
       //tempEL.textContent = wordBankArr[wordIndex][i];
       tempEl.textContent = "_";
-      tempEl.setAttribute("id", i);
       //tempEL.classList.add("invisible");
-      guessListEl.appendChild(tempEl);
+      guessListEl.append(tempEl);
 
       //text content = _
       //append to dom
     } else if (letter === wordBankArr[wordIndex][i]) {
-      console.log("i", i);
-      //traverse dom and select nth child
-      //change text content
-      //dom element child[i] . textContent = letter
+ 
+        //traverse dom and select nth child
+        //change text content
+        //dom element child[i] . textContent = letter
+        guessListEl.children[i].textContent = letter
 
       //since we cant figure it out, assign ids and cheat
-      document.getElementById(i).textContent = letter;
     }
     //console.log(guessListEl.child.textContent)
-    //else {
-    //console.log("error in if")
-    //}
+    else {
+    console.log("error in if statement")
+    }
   }
 }
 
