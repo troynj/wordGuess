@@ -1,0 +1,43 @@
+:root {
+    --main: rgb(43, 66, 59);
+    --second: #d4cec6;
+    --accent: white;
+    --text: rgb(164, 164, 164);
+    --text_second:  black;
+}
+body {
+    background-color: var(--main);
+}
+nav {
+    color: var(--text);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+nav h1 {
+    letter-spacing: .2em;
+}
+#start-game{
+    position: absolute;
+    left: 10px;
+}
+
+#guess-list{
+    display: flex;
+    flex-direction: row;
+    letter-spacing: 1em;
+    font-size: 1em;
+    list-style: none;
+    
+}
+
+section {
+    background-color: var(--second);
+    padding: 2em;
+    margin: 2em;
+}
+
+#word {
+    font-size: larger;
+}
