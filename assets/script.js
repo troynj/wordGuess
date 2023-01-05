@@ -130,6 +130,8 @@ function setScore() {
 function getScore() {
   var winEl = document.getElementById("win");
   var lossEl = document.getElementById("loss");
-  winEl.textContent = "Wins: " + localStorage.getItem("win");
-  lossEl.textContent = "Losses: " + localStorage.getItem("loss");
+  var winTotal = localStorage.getItem("win") ?? 0;
+  var lossTotal = localStorage.getItem("loss") ?? 0;
+  winEl.textContent = "Wins: " + winTotal;
+  lossEl.textContent = "Losses: " + lossTotal;
 }
