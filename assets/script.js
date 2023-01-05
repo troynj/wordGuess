@@ -7,6 +7,7 @@ var timeLeft = 10;
 var timerEl = document.getElementById("timer");
 var gameOver = false;
 var wordGuessed = false;
+var restartGame = false;
 
 wordBankArr = [
   "one",
@@ -20,19 +21,25 @@ wordBankArr = [
   "hidden",
   "temple",
 ];
-var wordIndex = getWord();
+var wordIndex = 0;
 var startGameEl = document.getElementById("start-game");
 var guessListEl = document.getElementById("guess-list")
-startGameEl.addEventListener("click", initGame);
+startGameEl.addEventListener("click", initGame, { once: true });
 
 window.addEventListener("keydown", checkGuess);
 
 function initGame() {
+
+  timeLeft = 10;
+  gameOver = false;
+  wordGuessed = false;
+  wordIndex = Math.floor(Math.random() * wordBankArr.length)
   
   while (guessListEl.firstChild) {
     guessListEl.removeChild(guessListEl.firstChild);
-}
-
+  }
+  
+  getScore();
   displayWord(null);
   setTimer();
 }
@@ -47,15 +54,14 @@ function setTimer() {
       gameOver = true;
       endGame();
     }
+    else if (restartGame){
+      clearIntereval(timerID)
+    }
 
     //if statement to manage gamestate
     //clearInterval(timerID)
     //manage end game
   }, 1000);
-}
-
-function getWord() {
-  return [Math.floor(Math.random() * wordBankArr.length)];
 }
 
 function displayWord(letter) {
@@ -86,8 +92,9 @@ function displayWord(letter) {
 
 function checkGuess(event) {
   console.log(event.key);
-  if (wordBankArr[wordIndex].includes(event.key)) {
-    displayWord(event.key);
+  var userInput = event.key.toLowerCase()
+  if (wordBankArr[wordIndex].includes(userInput)) {
+    displayWord(userInput);
   }
   wordGuessed = checkWordStatus();
   console.log(wordGuessed);
@@ -110,16 +117,17 @@ function endGame() {
     loss++;
   }
 
-  saveScore();
   setScore();
+  getScore();
+  startGameEl.addEventListener("click", initGame, { once: true });
 }
 
-function saveScore() {
+function setScore() {
   localStorage.setItem("win", win);
   localStorage.setItem("loss", loss);
 }
 
-function setScore() {
+function getScore() {
   var winEl = document.getElementById("win");
   var lossEl = document.getElementById("loss");
   winEl.textContent = "Wins: " + localStorage.getItem("win");
