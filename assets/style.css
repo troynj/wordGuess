@@ -32,7 +32,12 @@ nav h1 {
     
 }
 
+main {
+    display:flex;
+    flex-direction: row;
+}
 section {
+    width: 50%;
     background-color: var(--second);
     padding: 2em;
     margin: 2em;
